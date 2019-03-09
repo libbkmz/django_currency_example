@@ -15,6 +15,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, './frontend/templates/frontend'),
     hot: true,
-    publicPath: '/static/frontend'
+    publicPath: '/static/frontend',
+    watchContentBase: true
   }
 };
