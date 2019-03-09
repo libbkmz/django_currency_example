@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
   module: {
     rules: [
@@ -9,5 +11,10 @@ module.exports = {
         }
       }
     ]
+  },
+  devServer: {
+    contentBase: path.join(__dirname, './frontend/templates/frontend'),
+    hot: true,
+    publicPath: '/static/frontend'
   }
 };
