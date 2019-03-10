@@ -5,8 +5,12 @@ import RootReducer from './reducers';
 const middleware = [...getDefaultMiddleware(), logger];
 export const initialState = {
     test_items: [],
-    signup: {
+    signupModal: {
         visible: false
+    },
+    signupRequest: {
+        inProgress: false,
+
     }
 };
 
