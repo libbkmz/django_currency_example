@@ -25,13 +25,15 @@ class SignUpModalCls extends React.Component {
 
     formSubmit = (e) => {
         e.preventDefault();
-        // registerUser();
 
         this.props.SIGNUP_SERVER_BEGIN();
-        axios.get("http://localhost:8000/")
+        axios.post("http://localhost:8000/api/users/create", {
+            email: this.state.email,
+            password: this.state.pwd,
+        })
             .then(res => {
                 console.log(res);
-                res.json();
+                res.data.json();
                 this.props.SIGNUP_SERVER_SUCCESSFUL();
             })
             .catch(res => {
