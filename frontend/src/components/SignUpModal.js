@@ -24,20 +24,21 @@ class SignUpModalCls extends React.Component {
     };
 
     formSubmit = (e) => {
+        let self = this;
         e.preventDefault();
 
         this.props.SIGNUP_SERVER_BEGIN();
         axios.post("http://localhost:8000/api/users/create", {
-            email: this.state.email,
-            password: this.state.pwd,
+            email: self.state.email,
+            password: self.state.pwd,
         })
             .then(res => {
                 console.log(res);
-                res.data.json();
-                this.props.SIGNUP_SERVER_SUCCESSFUL();
+                self.props.SIGNUP_SERVER_SUCCESSFUL(res.data);
             })
             .catch(res => {
-                console.warn(res)
+                console.info(res);
+                self.props.SIGNUP_SERVER_ERROR(res.response.data);
             })
 
 
@@ -47,7 +48,7 @@ class SignUpModalCls extends React.Component {
         // console.log(this.props);
         return (
             <>
-                { this.props.visible &&
+                { this.props.signupModal.visible &&
                 <div className="modal is-active">
                     <div className="modal-background" onClick={this.closeModal} />
                     <div className="modal-content">
@@ -73,12 +74,20 @@ class SignUpModalCls extends React.Component {
                                     </p>
                                 </div>
 
-                                <div className="field is-grouped">
-                                    <p className="control">
-                                        <button className="button is-primary" type="submit">
-                                            Sign-up
-                                        </button>
-                                    </p>
+                                <div className="columns">
+                                    <div className="column is-2">
+
+                                        <div className="field is-grouped">
+                                            <p className="control">
+                                                <button className="button is-primary" type="submit">
+                                                    Sign-up
+                                                </button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="column">
+                                        { this.props.signupRequest.error && JSON.stringify(this.props.signupRequest.error) }
+                                    </div>
                                 </div>
 
                             </form>
@@ -94,10 +103,15 @@ class SignUpModalCls extends React.Component {
 
 const SignUpModal = connect(
     (state) => {
-        return state.signupModal
+        return {
+            signupModal: state.signupModal,
+            signupRequest: state.signupRequest,
+        }
     },{
         CLOSE_SIGNUP_MODAL,
-        SIGNUP_SERVER_BEGIN
+        SIGNUP_SERVER_BEGIN,
+        SIGNUP_SERVER_SUCCESSFUL,
+        SIGNUP_SERVER_ERROR
     }
 
 )(SignUpModalCls);

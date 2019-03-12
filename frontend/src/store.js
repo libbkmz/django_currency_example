@@ -4,13 +4,13 @@ import RootReducer from './reducers';
 
 const middleware = [...getDefaultMiddleware(), logger];
 export const initialState = {
-    test_items: [],
     signupModal: {
         visible: false
     },
     signupRequest: {
         inProgress: false,
-
+        error: false,
+        completed: false,
     }
 };
 
